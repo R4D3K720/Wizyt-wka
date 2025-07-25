@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tomek – Twórca Stron WWW</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    scroll-behavior: smooth;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInDown 1s forwards;
+  }
+  header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  header p {
+    font-size: 1.3rem;
+    color: #34495e;
+    animation: fadeInUp 1s forwards 0.5s;
+  }
+  main {
+    background: rgba(255,255,255,0.95);
+    padding: 30px 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    max-width: 900px;
+    width: 100%;
+  }
+  section {
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  h2 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    text-align: center;
+  }
+  p, ul {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #555;
+    max-width: 750px;
+    margin: 0 auto 20px;
+  }
+  ul {
+    list-style: inside disc;
+  }
+  .price {
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: rgba(230, 126, 34, 0.8);
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: none;
+    animation: none;
+    opacity: 0.85;
+  }
+
+  /* Projekty - galeria */
+  .projects-grid {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .project-item {
+    width: 280px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    background: white;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-item:hover {
+    transform: scale(1.07);
+    box-shadow: 0 15px 40px rgba(230,126,34,0.4);
+  }
+  .project-image {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    filter: brightness(90%);
+    transition: filter 0.3s ease;
+  }
+  .project-item:hover .project-image {
+    filter: brightness(75%);
+  }
+  .project-caption {
+    padding: 18px 22px;
+    font-weight: 700;
+    color: #2c3e50;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .project-link {
+    text-decoration: none;
+  }
+
+  /* Kontakt */
+  .contact {
+    text-align: center;
+  }
+  .contact p {
+    margin-bottom: 30px;
+    font-size: 1.3rem;
+  }
+  .contact a {
+    display: inline-block;
+    background: #e67e22;
+    color: white;
+    text-decoration: none;
+    padding: 17px 55px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 0 12px #e67e22;
+    animation: pulseGlow 2.8s infinite;
+  }
+  .contact a:hover {
+    background: #cf711b;
+    box-shadow: 0 0 30px #cf711b;
+  }
+  /* Przycisk do góry */
+  #toTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #e67e22;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 18px #e67e22;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 100;
+  }
+  #toTopBtn.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  /* Animacje */
+  @keyframes fadeInDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 12px #e67e22;
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 30px #e67e22;
+      transform: scale(1.05);
+    }
+  }
+  /* Responsive */
+  @media (max-width: 640px) {
+    main {
+      padding: 25px 25px;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+    p, ul {
+      font-size: 1rem;
+    }
+    .projects-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-item {
+      width: 90%;
+      height: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Tomek</h1>
+  <p>Tworzę nowoczesne, bezpieczne i szybkie strony internetowe w niskiej cenie.</p>
+</header>
+
+<main>
+  <section id="offer" class="visible">
+    <h2>Oferta</h2>
+    <p>Specjalizuję się w tworzeniu stron typu:</p>
+    <ul>
+      <li>Wizytówki firmowe i osobiste</li>
+      <li>Blogi i strony tematyczne</li>
+      <li>Portfolio dla artystów i freelancerów</li>
+      <li>Proste strony promocyjne i landing page</li>
+    </ul>
+    <div class="price">Już od 100 zł</div>
+  </section>
+
+  <section id="projects" >
+    <h2>Moje projekty</h2>
+    <p>Kliknij w obrazek, by zobaczyć przykładową stronę.</p>
+    <div class="projects-grid">
+      <a href="https://example.com/demo1" target="_blank" rel="noopener" class="project-link">
+  	<div class="projects-grid">
+  <a href="restauracja.html" target="_blank" rel="noopener" class="project-link">
+    <div class="project-item" tabindex="0">
+      <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=400&q=80" alt="Strona restauracji" class="project-image" />
+      <div class="project-caption">Strona restauracji</div>
+    </div>
+  </a>
+  <a href="portfolio.html" target="_blank" rel="noopener" class="project-link">
+    <div class="project-item" tabindex="0">
+      <img src="https://cdn.pixabay.com/photo/2023/04/05/19/46/photographer-7902219_1280.jpg" alt="Portfolio fotografa" class="project-image" />
+      <div class="project-caption">Portfolio fotografa</div>
+    </div>
+  </a>
+  <a href="firma.html" target="_blank" rel="noopener" class="project-link">
+    <div class="project-item" tabindex="0">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Strona firmy" class="project-image" />
+      <div class="project-caption">Strona firmy</div>
+    </div>
+  </a>
+</div>
+
+  </section>
+
+  <section id="contact" class="contact" >
+    <h2>Kontakt</h2>
+    <p>Masz pytania lub chcesz zacząć współpracę? Napisz do mnie!</p>
+    <a href="mailto:tomek@example.com" target="_blank" rel="noopener">Napisz do mnie</a>
+  </section>
+</main>
+
+<button id="toTopBtn" title="Do góry">&#8679;</button>
+
+<script>
+  // Animacje scroll reveal
+  const sections = document.querySelectorAll('main section');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {threshold: 0.2});
+  sections.forEach(section => revealObserver.observe(section));
+
+  // Przycisk do góry
+  const toTopBtn = document.getElementById('toTopBtn');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 200){
+      toTopBtn.classList.add('show');
+    } else {
+      toTopBtn.classList.remove('show');
+    }
+  });
+  toTopBtn.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+</script>
+
+</body>
+</html>
