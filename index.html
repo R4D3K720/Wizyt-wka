@@ -5,22 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Tomek – Twórca Stron WWW</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
   * {
     margin: 0; padding: 0; box-sizing: border-box;
   }
-  body {
-    font-family: 'Montserrat', sans-serif;
+  body, html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     color: #333;
-    min-height: 100vh;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* EKRAN POWITALNY */
+  #splash {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.9);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
-    scroll-behavior: smooth;
+    justify-content: center;
+    z-index: 9999;
+    color: #2c3e50;
+    font-size: 3.8rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 0 40px;
+    user-select: none;
+    opacity: 1;
+    transition: opacity 0.8s ease;
   }
+  #splash.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #splash .line1 {
+    margin-bottom: 16px;
+  }
+  #splash .line2 {
+    margin-bottom: 50px;
+    font-weight: 900;
+    font-size: 4.4rem;
+    color: #e67e22;
+  }
+  #splash button {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 20px 70px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(44,62,80,0.4);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  #splash button:hover {
+    background: #1f2a36;
+    box-shadow: 0 9px 28px rgba(31,42,54,0.7);
+  }
+
+  /* STRONA GŁÓWNA */
+  #mainContent {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  #mainContent.visible {
+    display: flex;
+  }
+  
   header {
     text-align: center;
     margin-bottom: 40px;
@@ -39,6 +98,7 @@
     color: #34495e;
     animation: fadeInUp 1s forwards 0.5s;
   }
+
   main {
     background: rgba(255,255,255,0.95);
     padding: 30px 40px;
@@ -47,6 +107,7 @@
     max-width: 900px;
     width: 100%;
   }
+
   section {
     margin-bottom: 50px;
     opacity: 0;
@@ -57,6 +118,7 @@
     opacity: 1;
     transform: translateY(0);
   }
+
   h2 {
     font-weight: 700;
     font-size: 2.2rem;
@@ -64,6 +126,7 @@
     color: #2c3e50;
     text-align: center;
   }
+
   p, ul {
     font-size: 1.15rem;
     line-height: 1.6;
@@ -74,14 +137,13 @@
   ul {
     list-style: inside disc;
   }
+
   .price {
     font-weight: 900;
     font-size: 2.2rem;
     color: rgba(230, 126, 34, 0.8);
     text-align: center;
     margin-bottom: 40px;
-    text-shadow: none;
-    animation: none;
     opacity: 0.85;
   }
 
@@ -139,23 +201,43 @@
     margin-bottom: 30px;
     font-size: 1.3rem;
   }
-  .contact a {
-    display: inline-block;
+  .contact form {
+    max-width: 450px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .contact input, .contact textarea, .contact button {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+  }
+  .contact input:focus, .contact textarea:focus {
+    outline: 2px solid #e67e22;
+    border-color: #e67e22;
+  }
+  .contact button {
     background: #e67e22;
     color: white;
-    text-decoration: none;
-    padding: 17px 55px;
-    border-radius: 50px;
     font-weight: 700;
-    font-size: 1.3rem;
-    transition: background 0.4s ease, box-shadow 0.4s ease;
+    border: none;
+    cursor: pointer;
     box-shadow: 0 0 12px #e67e22;
-    animation: pulseGlow 2.8s infinite;
+    transition: background 0.3s ease;
   }
-  .contact a:hover {
+  .contact button:hover {
     background: #cf711b;
-    box-shadow: 0 0 30px #cf711b;
   }
+  #formMessage {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 700;
+    color: #2c3e50;
+  }
+
   /* Przycisk do góry */
   #toTopBtn {
     position: fixed;
@@ -179,6 +261,7 @@
     opacity: 1;
     pointer-events: auto;
   }
+
   /* Animacje */
   @keyframes fadeInDown {
     to {
@@ -210,6 +293,7 @@
       transform: scale(1.05);
     }
   }
+
   /* Responsive */
   @media (max-width: 640px) {
     main {
@@ -234,8 +318,19 @@
 </head>
 <body>
 
+<!-- EKRAN POWITALNY -->
+<div id="splash">
+  <div class="line1">Profesjonalna, unikalna</div>
+  <div class="line2">strona internetowa</div>
+  <div class="line1">już od <span style="color:#e67e22;">100 zł!</span></div>
+  <button id="startBtn">Sprawdź ofertę</button>
+</div>
+
+<!-- GŁÓWNA STRONA -->
+<div id="mainContent">
+
 <header>
-  <h1>Tomek</h1>
+  <h1>Profesjonalne strony www na miarę Twoich potrzeb</h1>
   <p>Tworzę nowoczesne, bezpieczne i szybkie strony internetowe w niskiej cenie.</p>
 </header>
 
@@ -256,38 +351,46 @@
     <h2>Moje projekty</h2>
     <p>Kliknij w obrazek, by zobaczyć przykładową stronę.</p>
     <div class="projects-grid">
-      <a href="https://example.com/demo1" target="_blank" rel="noopener" class="project-link">
-  	<div class="projects-grid">
-  <a href="restauracja.html" target="_blank" rel="noopener" class="project-link">
-    <div class="project-item" tabindex="0">
-      <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=400&q=80" alt="Strona restauracji" class="project-image" />
-      <div class="project-caption">Strona restauracji</div>
+      <a href="restauracja.html" target="_blank" rel="noopener" class="project-link">
+        <div class="project-item" tabindex="0">
+          <img src="https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=400&q=80" alt="Strona restauracji" class="project-image" />
+          <div class="project-caption">Strona restauracji</div>
+        </div>
+      </a>
+      <a href="portfolio.html" target="_blank" rel="noopener" class="project-link">
+        <div class="project-item" tabindex="0">
+          <img src="https://cdn.pixabay.com/photo/2023/04/05/19/46/photographer-7902219_1280.jpg" alt="Portfolio fotografa" class="project-image" />
+          <div class="project-caption">Portfolio fotografa</div>
+        </div>
+      </a>
+      <a href="firma.html" target="_blank" rel="noopener" class="project-link">
+        <div class="project-item" tabindex="0">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Strona firmy" class="project-image" />
+          <div class="project-caption">Strona firmy</div>
+        </div>
+      </a>
     </div>
-  </a>
-  <a href="portfolio.html" target="_blank" rel="noopener" class="project-link">
-    <div class="project-item" tabindex="0">
-      <img src="https://cdn.pixabay.com/photo/2023/04/05/19/46/photographer-7902219_1280.jpg" alt="Portfolio fotografa" class="project-image" />
-      <div class="project-caption">Portfolio fotografa</div>
-    </div>
-  </a>
-  <a href="firma.html" target="_blank" rel="noopener" class="project-link">
-    <div class="project-item" tabindex="0">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Strona firmy" class="project-image" />
-      <div class="project-caption">Strona firmy</div>
-    </div>
-  </a>
-</div>
-
   </section>
 
-  <section id="contact" class="contact" >
+  <section id="contact" class="contact">
     <h2>Kontakt</h2>
-    <p>Masz pytania lub chcesz zacząć współpracę? Napisz do mnie!</p>
-    <a href="mailto:iwanicki.tomasz966@gmail.com" target="_blank" rel="noopener">Napisz do mnie</a>
+    <p>Masz pytania lub chcesz zamówić stronę? Wypełnij formularz poniżej!</p>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Imię i nazwisko" required />
+      <input type="email" name="email" placeholder="Adres e-mail" required />
+      <input type="text" name="company" placeholder="Nazwa firmy (opcjonalnie)" />
+      <input type="text" name="websiteType" placeholder="Rodzaj strony (np. wizytówka, sklep)" required />
+      <input type="text" name="style" placeholder="Preferowany styl (np. nowoczesny, klasyczny)" required />
+      <textarea name="details" placeholder="Opisz szczegółowo, jak wyobrażasz sobie stronę" rows="5"></textarea>
+      <button type="submit">Wyślij zapytanie</button>
+    </form>
+    <p id="formMessage"></p>
   </section>
 </main>
 
 <button id="toTopBtn" title="Do góry">&#8679;</button>
+
+</div>
 
 <script>
   // Animacje scroll reveal
@@ -312,6 +415,26 @@
   });
   toTopBtn.addEventListener('click', () => {
     window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // Ręczne ukrycie splash
+  const splash = document.getElementById('splash');
+  const mainContent = document.getElementById('mainContent');
+  document.getElementById('startBtn').addEventListener('click', () => {
+    splash.classList.add('hide');
+    setTimeout(() => {
+      splash.style.display = 'none';
+      mainContent.classList.add('visible');
+    }, 900);
+  });
+
+  // Formularz kontaktowy
+  const form = document.getElementById('contactForm');
+  const formMessage = document.getElementById('formMessage');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    formMessage.textContent = 'Dziękujemy za wiadomość! Skontaktuję się z Tobą wkrótce.';
+    form.reset();
   });
 </script>
 
