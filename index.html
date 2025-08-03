@@ -20,53 +20,69 @@
   }
 
   /* EKRAN POWITALNY */
+#splash {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: #2c3e50;
+  font-size: 3.8rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0 40px;
+  user-select: none;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+#splash.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+#splash .line1 {
+  margin-bottom: 16px;
+}
+#splash .line2 {
+  margin-bottom: 50px;
+  font-weight: 900;
+  font-size: 4.4rem;
+  color: #e67e22;
+}
+#splash button {
+  background: #2c3e50;
+  color: white;
+  border: none;
+  padding: 20px 70px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(44,62,80,0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+#splash button:hover {
+  background: #1f2a36;
+  box-shadow: 0 9px 28px rgba(31,42,54,0.7);
+}
+
+/* RESPONSYWNOŚĆ EKRAN POWITALNY */
+@media (max-width: 480px) {
   #splash {
-    position: fixed;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    color: #2c3e50;
-    font-size: 3.8rem;
-    font-weight: 700;
-    text-align: center;
-    padding: 0 40px;
-    user-select: none;
-    opacity: 1;
-    transition: opacity 0.8s ease;
-  }
-  #splash.hide {
-    opacity: 0;
-    pointer-events: none;
-  }
-  #splash .line1 {
-    margin-bottom: 16px;
+    font-size: 2rem;
+    padding: 0 20px;
   }
   #splash .line2 {
-    margin-bottom: 50px;
-    font-weight: 900;
-    font-size: 4.4rem;
-    color: #e67e22;
+    font-size: 2.6rem;
+    margin-bottom: 30px;
   }
   #splash button {
-    background: #2c3e50;
-    color: white;
-    border: none;
-    padding: 20px 70px;
-    font-size: 1.6rem;
-    font-weight: 700;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(44,62,80,0.4);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px 40px;
+    font-size: 1.2rem;
   }
-  #splash button:hover {
-    background: #1f2a36;
-    box-shadow: 0 9px 28px rgba(31,42,54,0.7);
-  }
+}
 
   /* GŁÓWNA STRONA */
   #mainContent {
